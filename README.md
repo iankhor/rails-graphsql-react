@@ -23,3 +23,10 @@ Things you may want to cover:
 
 * ...
 # rails-graphsql-react
+
+```
+CREATE USER rails_graphql_react_dev WITH PASSWORD 'rails_graphql_react_dev' CREATEDB CREATEROLE SUPERUSER;
+CREATE DATABASE rails_graphql_react_dev WITH OWNER rails_graphql_react_dev;
+CREATE USER rails_graphql_react_test WITH PASSWORD 'rails_graphql_react_test' CREATEDB CREATEROLE SUPERUSER;
+CREATE DATABASE rails_graphql_react_test WITH OWNER rails_graphql_react_test;
+```
