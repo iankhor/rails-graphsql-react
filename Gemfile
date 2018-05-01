@@ -30,6 +30,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-its'
   gem 'rspec-rails'
+  gem 'graphiql-rails'
 end
 
 group :development do
