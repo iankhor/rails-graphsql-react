@@ -21,8 +21,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'faker'
 
 gem 'graphql'
-gem 'search_object'
-gem 'search_objxect_graphql'
+gem 'search_object', '1.2.0'
+gem 'search_object_graphql', '0.1'
 
 gem 'graphiql-rails' #should be in dev but installed in production got demo purposes
 
