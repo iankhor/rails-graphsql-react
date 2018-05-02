@@ -11,7 +11,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :directory, !types[Types::DirectoryType] do
     resolve -> (obj, args, ctx) {
-      Directory.first(5)
+      Directory.order(:created_at).last(5)
     }
   end
 end
