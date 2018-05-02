@@ -22,7 +22,9 @@ gem 'faker'
 
 gem 'graphql'
 gem 'search_object'
-gem 'search_object_graphql'
+gem 'search_objxect_graphql'
+
+gem 'graphiql-rails' #should be in dev but installed in production got demo purposes
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -35,7 +37,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'graphiql-rails'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
