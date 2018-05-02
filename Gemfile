@@ -21,6 +21,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'faker'
 
 gem 'graphql'
+gem 'search_object'
+gem 'search_object_graphql'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
