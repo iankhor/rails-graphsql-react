@@ -268,8 +268,8 @@ DEPENDENCIES
   rspec-its
   rspec-rails
   sass-rails (~> 5.0)
-  search_object
-  search_object_graphql
+  search_object (= 1.2.0)
+  search_object_graphql (= 0.1)
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
