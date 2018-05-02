@@ -24,9 +24,9 @@ gem 'graphql'
 gem 'search_object', '1.2.0'
 gem 'search_object_graphql', '0.1'
 
-gem 'graphiql-rails' #should be in dev but installed in production got demo purposes
 
 group :development, :test do
+  gem 'graphiql-rails'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-byebug'
   gem 'pry-rails'
