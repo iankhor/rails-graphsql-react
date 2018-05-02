@@ -9,9 +9,11 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :directory, !types[Types::DirectoryType] do
-    resolve -> (obj, args, ctx) {
-      Directory.order(:created_at).last(5)
-    }
-  end
+  # field :directory, !types[Types::DirectoryType] do
+  #   resolve -> (obj, args, ctx) {
+  #     Directory.order(:created_at).last(5)
+  #   }
+  # end
+
+  field :directory, function: Resolvers::ProviderSearch
 end
