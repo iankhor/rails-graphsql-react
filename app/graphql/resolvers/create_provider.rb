@@ -1,7 +1,4 @@
 class Resolvers::CreateProvider < GraphQL::Function
-  # argument :description, !types.String
-  # argument :url, !types.String
-
   argument :title, types.String
   argument :first_name, types.String
   argument :last_name, types.String
