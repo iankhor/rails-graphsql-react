@@ -16,21 +16,21 @@ class Resolvers::CreateProvider < GraphQL::Function
 
   type Types::DirectoryType
 
-    def call(_obj, args, _ctx)
+  def call(_obj, args, _ctx)
     Directory.create!(
-      title: args[:title]
-      first_name: args[:first_name]
-      last_name: args[:last_name]
-      gender: args[:gender]
-      phone: args[:phone]
-      email: args[:email]
-      street_line_1: args[:street_line_1]
-      street_line_2: args[:street_line_2]
-      sublocality: args[:street_line_2]
-      locality: args[:locality]
-      postal_code: args[:postal_code]
-      country_code: args[:country_code]
-      latitude: args[:latitude]
+      title: args[:title],
+      first_name: args[:first_name],
+      last_name: args[:last_name],
+      gender: args[:gender],
+      phone: args[:phone],
+      email: args[:email],
+      street_line_1: args[:street_line_1],
+      street_line_2: args[:street_line_2],
+      sublocality: args[:street_line_2],
+      locality: args[:locality],
+      postal_code: args[:postal_code],
+      country_code: args[:country_code],
+      latitude: args[:latitude],
       longitude: args[:longitude]
     )
   end
