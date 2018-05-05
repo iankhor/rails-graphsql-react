@@ -1,0 +1,62 @@
+<%= javascript_pack_tag 'hello_react' %>
+
+
+<h1>Try out graphQL with 30k fake providers</h1>
+<a href="https://r5-graphql-react.herokuapp.com/graphiql">Click me to try our GraphQL</a>
+<p>https://github.com/iankhor/rails-graphsql-react</p>
+<i>iansanity</i>
+
+<p>
+  sample code to run in GraphiQL
+</p>
+
+<h1>Get providers + Filtering + Simple Pagination</h1>
+<pre>
+  <code>
+    query {
+      directory(
+        filter:{ gender: "Male", postal_code: "3000", locality: "Malibu"},
+        first: 20,
+        skip: 0
+      ) {
+        country_code
+        email
+        first_name
+        gender
+        last_name
+        latitude
+        locality
+        longitude
+        phone
+        postal_code
+        street_line_1
+        street_line_2
+        sublocality
+        title
+      }
+    }
+  }
+  </code>
+</pre>
+
+<h1>Create a provider</h1>
+<pre>
+  <code>
+    mutation {
+      createProvider(
+        title: "Mr",
+        first_name: "Tony",
+        last_name: "Stark",
+        gender: "Male",
+        email: "ironman@marvel.com",
+        country_code: "USA",
+        locality: "Malibu",
+        sublocality: "Unknown",
+        phone: "9999999",
+        postal_code: "3000",
+        street_line_1: "373 LB"
+        street_line_2: "Street"
+      )
+    }
+  </code>
+</pre>
