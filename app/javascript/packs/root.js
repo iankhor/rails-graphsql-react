@@ -6,15 +6,19 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import HomepageLayout from './components/Home/Home'
+import ProviderSearch from './components/ProviderSearch/ProviderSearch'
+
 
 
 const Root = () => (
   <Router>
-    <Route exact path="/" component={HomepageLayout} />
+    <div>
+      <Route exact path="/" component={HomepageLayout} />
+      <Route path="/provider_search" component={ProviderSearch} />
+    </div>
   </Router>
 );
 
-// <Route path="/about" component={About} />
 // <Route path="/topics" component={Topics} />
 
 document.addEventListener('DOMContentLoaded', () => {
