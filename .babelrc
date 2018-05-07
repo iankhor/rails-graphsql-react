@@ -4,10 +4,7 @@
       "env",
       {
         "modules": false,
-        "targets": {
-          "browsers": "> 1%",
-          "uglify": true
-        },
+        "targets": { "node": "current" },
         "useBuiltIns": true
       }
     ],
