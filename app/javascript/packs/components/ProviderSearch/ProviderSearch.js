@@ -1,5 +1,24 @@
 import React from 'react'
-import { Table, Container, Input, Segment, Header, Button } from 'semantic-ui-react'
+import { Table, Container, Input, Segment, Header, Button, Checkbox } from 'semantic-ui-react'
+import Provider from './Provider'
+import faker from 'faker'
+
+const data = [
+  {
+    providerName: faker.name.findName(),
+    practiceName: faker.company.companyName(),
+    address: faker.address.streetAddress(),
+    email: faker.internet.email(),
+    phone: faker.phone.phoneNumber()
+  },
+  {
+    providerName: faker.name.findName(),
+    practiceName: faker.company.companyName(),
+    address: faker.address.streetAddress(),
+    email: faker.internet.email(),
+    phone: faker.phone.phoneNumber()
+  }
+]
 
 const FixedMenuLayout = () => (
   <div>
@@ -12,6 +31,7 @@ const FixedMenuLayout = () => (
       <Table compact>
           <Table.Header>
             <Table.Row>
+              <Table.HeaderCell />
               <Table.HeaderCell>Provider Name</Table.HeaderCell>
               <Table.HeaderCell>Practice Name</Table.HeaderCell>
               <Table.HeaderCell>Practice Address</Table.HeaderCell>
@@ -22,20 +42,7 @@ const FixedMenuLayout = () => (
           </Table.Header>
 
           <Table.Body>
-            <Table.Row>
-              <Table.Cell>John Smith</Table.Cell>
-              <Table.Cell>Some Clinic</Table.Cell>
-              <Table.Cell>1 Infinity Loop, Melbourne</Table.Cell>
-              <Table.Cell>the@email.com</Table.Cell>
-              <Table.Cell>0312341234</Table.Cell>
-              <Table.Cell>
-                <Button.Group>
-                    <Button icon='play' />
-                    <Button icon='pause' />
-                    <Button icon='shuffle' />
-                </Button.Group>
-              </Table.Cell>
-            </Table.Row>
+            { data.map( (provider, index) => <Provider {...provider} key={index}/> )}
           </Table.Body>
         </Table>
 
