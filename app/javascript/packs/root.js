@@ -6,7 +6,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import HomepageLayout from './components/Home/Home'
-import ProviderSearch from './components/ProviderSearch/ProviderSearch'
+import ProviderContainer from './components/ProviderSearch/ProviderContainer'
 
 
 
@@ -14,7 +14,7 @@ const Root = () => (
   <Router>
     <div>
       <Route exact path="/" component={HomepageLayout} />
-      <Route path="/provider_search" component={ProviderSearch} />
+      <Route path="/provider_search" component={ProviderContainer} />
     </div>
   </Router>
 );
