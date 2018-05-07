@@ -27,10 +27,21 @@ export default class ProviderContainer extends Component {
   }
 
   getProviders = async () => {
-    const query = 'query {\n  directory(\n    first: 20,\n    skip: 0\n  ) {\n    country_code\n    email\n    first_name\n    last_name\n    phone\n    title\n  } }'
+    const query =
+    `query {
+        directory(first: 20,skip: 0)
+        {
+          country_code
+          email
+          first_name
+          last_name
+          phone
+          title
+        }
+      }`
 
-    const { data } = await axios.post('/graphql', { query })
-    console.log(data)
+    const { data: { data: { directory } } } = await axios.post('/graphql', { query })
+    console.log(directory)
   }
 
   render() {
