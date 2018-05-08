@@ -1,54 +1,36 @@
 import React, { Component } from 'react'
-import ProviderTable from './ProviderSearch'
+import ProviderTable from './ProviderTable'
 import faker from 'faker'
 import axios from 'axios'
 
-const data = [
-  {
-    providerName: faker.name.findName(),
-    practiceName: faker.company.companyName(),
-    address: faker.address.streetAddress(),
-    email: faker.internet.email(),
-    phone: faker.phone.phoneNumber()
-  },
-  {
-    providerName: faker.name.findName(),
-    practiceName: faker.company.companyName(),
-    address: faker.address.streetAddress(),
-    email: faker.internet.email(),
-    phone: faker.phone.phoneNumber()
-  }
-]
-
 export default class ProviderContainer extends Component {
+  constructor(props) {
+    super(props)
 
-  componentDidMount = () => {
-    this.getProviders()
+    this.state = {
+      directory: []
+    }
   }
+
+  componentDidMount = () => this.getProviders()
 
   getProviders = async () => {
     const query =
     `query {
-        directory(first: 20,skip: 0)
+      directory(first: 20,skip: 0)
         {
-          country_code
+          full_name
+          full_address
           email
-          first_name
-          last_name
           phone
-          title
         }
       }`
 
     const { data: { data: { directory } } } = await axios.post('/graphql', { query })
-    console.log(directory)
+    this.setState({ directory })
   }
 
   render() {
-    return(
-      <div>
-        <ProviderTable data={data}/>
-      </div>
-    )
+    return <div><ProviderTable directory={this.state.directory}/></div>
   }
 }

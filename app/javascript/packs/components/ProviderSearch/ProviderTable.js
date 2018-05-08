@@ -2,7 +2,7 @@ import React from 'react'
 import { Table, Container, Input, Segment, Header, Button, Checkbox } from 'semantic-ui-react'
 import Provider from './Provider'
 
-const ProviderTable = ({ data }) => (
+const ProviderTable = ({ directory }) => (
   <Container text style={{ marginTop: '7em' }}>
     <Segment inverted>
       <Input fluid inverted icon='search' placeholder='Search...' />
@@ -14,7 +14,6 @@ const ProviderTable = ({ data }) => (
           <Table.Row>
             <Table.HeaderCell />
             <Table.HeaderCell>Provider Name</Table.HeaderCell>
-            <Table.HeaderCell>Practice Name</Table.HeaderCell>
             <Table.HeaderCell>Practice Address</Table.HeaderCell>
             <Table.HeaderCell>Practice Email</Table.HeaderCell>
             <Table.HeaderCell>Practice Phone</Table.HeaderCell>
@@ -23,7 +22,7 @@ const ProviderTable = ({ data }) => (
         </Table.Header>
 
         <Table.Body>
-          { data.map( (provider, index) => <Provider {...provider} key={index}/> )}
+          { directory.map( (provider, index) => <Provider {...provider} key={index}/> )}
         </Table.Body>
       </Table>
 

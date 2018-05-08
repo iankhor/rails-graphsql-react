@@ -1,11 +1,10 @@
 import React from 'react'
 import { Table, Button, Checkbox } from 'semantic-ui-react'
 
-const Provider = ({ providerName, practiceName, address, email, phone }) => (
+const Provider = ({ full_name: providerName, full_name: address, email, phone }) => (
   <Table.Row>
     <Table.Cell collapsing><Checkbox /></Table.Cell>
     <Table.Cell>{providerName}</Table.Cell>
-    <Table.Cell>{practiceName}</Table.Cell>
     <Table.Cell>{address}</Table.Cell>
     <Table.Cell>{email}</Table.Cell>
     <Table.Cell>{phone}</Table.Cell>
