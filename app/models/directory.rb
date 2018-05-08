@@ -2,7 +2,7 @@ class Directory < ApplicationRecord
   self.table_name = 'directory'
 
   def full_name
-    "#{title} #{first_name} #{last_name}"
+    [title, first_name, last_name].compact.join(' ')
   end
 
   def full_address
