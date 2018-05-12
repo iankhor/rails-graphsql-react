@@ -49,7 +49,7 @@ class DesktopContainer extends Component {
                 </Menu.Item>
               </Container>
             </Menu>
-            <HomepageHeading />
+            <HomepageHeading history={this.props.history}/>
           </Segment>
         </Visibility>
 

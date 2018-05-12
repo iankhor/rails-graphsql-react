@@ -17,8 +17,8 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 
-const HomepageLayout = () => (
-  <ResponsiveContainer>
+const HomepageLayout = ({ history }) => (
+  <ResponsiveContainer history={history}>
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Grid container stackable verticalAlign='middle'>
         <Grid.Row>

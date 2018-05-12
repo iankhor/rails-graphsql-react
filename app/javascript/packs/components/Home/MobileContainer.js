@@ -57,7 +57,7 @@ class MobileContainer extends Component {
                   </Menu.Item>
                 </Menu>
               </Container>
-              <HomepageHeading mobile />
+              <HomepageHeading mobile history={this.props.history}/>
             </Segment>
 
             {children}

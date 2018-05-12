@@ -3,10 +3,10 @@ import DesktopContainer from './DesktopContainer'
 import MobileContainer from './MobileContainer'
 import PropTypes from 'prop-types'
 
-const ResponsiveContainer = ({ children }) => (
+const ResponsiveContainer = ({ children, history }) => (
   <div>
-    <DesktopContainer>{children}</DesktopContainer>
-    <MobileContainer>{children}</MobileContainer>
+    <DesktopContainer history={history}>{children}</DesktopContainer>
+    <MobileContainer history={history}>{children}</MobileContainer>
   </div>
 )
 
