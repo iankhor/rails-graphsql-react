@@ -15,7 +15,6 @@ const ProviderTable = ({ directory }) => (
             <Table.HeaderCell />
             <Table.HeaderCell>Provider Name</Table.HeaderCell>
             <Table.HeaderCell>Practice Address</Table.HeaderCell>
-            <Table.HeaderCell>Practice Email</Table.HeaderCell>
             <Table.HeaderCell>Practice Phone</Table.HeaderCell>
             <Table.HeaderCell>Action</Table.HeaderCell>
           </Table.Row>
