@@ -9,4 +9,10 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   field :directory, function: Resolvers::ProviderSearch
+
+  connection :directoryConnection, Types::DirectoryType.connection_type do
+
+    resolve ->(_obj, _args, _ctx) { Directory.all.order('last_name') }
+  end
+
 end
