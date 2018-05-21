@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Container, Input, Segment, Header, Button, Checkbox } from 'semantic-ui-react'
+import { Table, Container, Input, Segment, Header, Button, Checkbox, Pagination } from 'semantic-ui-react'
 import Provider from './Provider'
 
 const ProviderTable = ({ directory }) => (
@@ -26,7 +26,6 @@ const ProviderTable = ({ directory }) => (
       </Table>
 
     </Segment>
-
   </Container>
 )
 
