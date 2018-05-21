@@ -24,7 +24,7 @@ export default class ProviderContainer extends Component {
     const { endCursor, startCursor } = this.state.pageInfo
     const nextPage = (navigateToNextPage && !navigateToPreviousPage) ? `after: "${endCursor}"` : ''
     const previousPage = (!navigateToNextPage && navigateToPreviousPage) ? `before: "${startCursor}"` : ''
-    const args= `first:50 ${nextPage} ${previousPage}`
+    const args= `first:10 ${nextPage} ${previousPage}`
 
     return(
       `{
@@ -68,7 +68,7 @@ export default class ProviderContainer extends Component {
   render() {
     return (
       <div>
-        <ProviderTable directory={[]}/>
+        <ProviderTable directory={this.state.directory}/>
         <Pagination
           defaultActivePage={this.state.currentPageNumber}
           totalPages={this.state.totalPages}

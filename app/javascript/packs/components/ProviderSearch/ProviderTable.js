@@ -21,7 +21,7 @@ const ProviderTable = ({ directory }) => (
         </Table.Header>
 
         <Table.Body>
-          { directory.map( (provider, index) => <Provider {...provider} key={index}/> )}
+          { directory.map( ({ cursor, node: provider }) => <Provider {...provider} key={cursor}/> )}
         </Table.Body>
       </Table>
 
