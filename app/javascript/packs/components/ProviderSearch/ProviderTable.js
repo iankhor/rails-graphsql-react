@@ -3,7 +3,7 @@ import { Table, Container, Input, Segment, Header, Button, Checkbox, Pagination 
 import Provider from './Provider'
 
 const ProviderTable = ({ directory }) => (
-  <Container text style={{ marginTop: '7em' }}>
+  <div>
     <Segment inverted>
       <Input fluid inverted icon='search' placeholder='Search...' />
     </Segment>
@@ -26,7 +26,7 @@ const ProviderTable = ({ directory }) => (
       </Table>
 
     </Segment>
-  </Container>
+  </div>
 )
 
 export default ProviderTable

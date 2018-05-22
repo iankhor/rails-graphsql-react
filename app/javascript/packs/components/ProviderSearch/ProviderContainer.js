@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ProviderTable from './ProviderTable'
-import { Pagination } from 'semantic-ui-react'
+import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic } from 'semantic-ui-react'
+import { buildDirectoryQuery } from './../../queries/Queries'
 import axios from 'axios'
 
 export default class ProviderContainer extends Component {
@@ -10,71 +11,69 @@ export default class ProviderContainer extends Component {
     this.state = {
       currentPageNumber: 1,
       directory: [],
+      totalCount: 0,
       totalPages: 0,
-      pageInfo: {}
+      pageInfo: {},
+      dimmerActive: false
     }
   }
 
   componentDidMount = () => {
-    const query = this.buildQuery({ navigateToNextPage: false, navigateToPreviousPage: false })
-    this.getProviders(query)
-  }
-
-  buildQuery = ({ navigateToNextPage, navigateToPreviousPage }) => {
-    const { endCursor, startCursor } = this.state.pageInfo
-    const nextPage = (navigateToNextPage && !navigateToPreviousPage) ? `after: "${endCursor}"` : ''
-    const previousPage = (!navigateToNextPage && navigateToPreviousPage) ? `before: "${startCursor}"` : ''
-    const args= `first:10 ${nextPage} ${previousPage}`
-
-    return(
-      `{
-        directory(${args}) {
-          totalCount
-          totalPages
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-            hasPreviousPage
-          }
-          edges {
-            cursor
-            node {
-              full_name
-              full_address
-              phone
-            }
-          }
-        }
-      }`
-    )
-  }
-
-  handlePageChange = (e, { activePage: selectedPageNumber }) => {
-    const { currentPageNumber } = this.state
-    const navigateToNextPage = currentPageNumber < selectedPageNumber
-    const navigateToPreviousPage = currentPageNumber > selectedPageNumber
-    this.setState({ currentPageNumber: selectedPageNumber })
-
-    const query = this.buildQuery({ navigateToNextPage, navigateToPreviousPage })
+    const query = buildDirectoryQuery({ navigateToNextPage: false, navigateToPreviousPage: false, pageInfo: this.state.pageInfo })
     this.getProviders(query)
   }
 
   getProviders = async (query) => {
-    const { data: { data: { directory: { edges, totalPages, pageInfo } } } } = await axios.post('/graphql', { query })
-    this.setState({ directory: edges, totalPages, pageInfo })
+    this.setState({ dimmerActive: true })
+    const { data: { data: { directory: { edges, totalPages, pageInfo, totalCount } } } } = await axios.post('/graphql', { query })
+    this.setState({ directory: edges, totalPages, pageInfo, dimmerActive: false, totalCount })
+  }
+
+  goToNextPage = () => {
+    const query = buildDirectoryQuery({ navigateToNextPage: true, navigateToPreviousPage: false, pageInfo: this.state.pageInfo })
+    this.getProviders(query)
+    this.setState({ currentPageNumber: this.state.currentPageNumber + 1 })
+  }
+
+  goToPrevPage = () => {
+    const query = buildDirectoryQuery({ navigateToNextPage: false, navigateToPreviousPage: true, pageInfo: this.state.pageInfo })
+    this.getProviders(query)
+    this.setState({ currentPageNumber: this.state.currentPageNumber - 1 })
   }
 
   render() {
     return (
-      <div>
-        <ProviderTable directory={this.state.directory}/>
-        <Pagination
-          defaultActivePage={this.state.currentPageNumber}
-          totalPages={this.state.totalPages}
-          onPageChange={this.handlePageChange}
-        />
-      </div>
+      <Container text style={{ marginTop: '7em' }}>
+      <Dimmer.Dimmable as={Segment} dimmed={this.state.dimmerActive}>
+          <Dimmer active={this.state.dimmerActive} inverted>
+            <Loader>Loading</Loader>
+          </Dimmer>
+
+          <ProviderTable directory={this.state.directory}/>
+      </Dimmer.Dimmable>
+
+        <Segment textAlign='center'>
+          <Button icon labelPosition='left' onClick={this.goToPrevPage}><Icon name='left arrow' />Prev</Button>
+          <Button icon labelPosition='right' onClick={this.goToNextPage}>Next<Icon name='right arrow' /></Button>
+        </Segment>
+
+        <Segment>
+          <Statistic.Group color='red' widths='three'>
+            <Statistic>
+              <Statistic.Value>{this.state.currentPageNumber}</Statistic.Value>
+              <Statistic.Label>Current Page</Statistic.Label>
+            </Statistic>
+            <Statistic>
+              <Statistic.Value>{this.state.totalPages}</Statistic.Value>
+              <Statistic.Label>Total Pages</Statistic.Label>
+            </Statistic>
+            <Statistic>
+              <Statistic.Value>{this.state.totalCount}</Statistic.Value>
+              <Statistic.Label>Total Providers</Statistic.Label>
+            </Statistic>
+          </Statistic.Group>
+        </Segment>
+      </Container>
     )
   }
 }

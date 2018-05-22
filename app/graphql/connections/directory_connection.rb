@@ -14,7 +14,7 @@ Connections::DirectoryConnection = Types::DirectoryType.define_connection do
 
     resolve ->(obj, _args, _ctx) {
       per_page = obj.arguments.first || obj.arguments.last
-      obj.nodes.count / per_page
+      (obj.nodes.count.to_f / per_page.to_f).ceil()
     }
   end
 end
