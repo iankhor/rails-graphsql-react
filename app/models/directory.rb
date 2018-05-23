@@ -4,7 +4,6 @@ class Directory < ApplicationRecord
                   against: [:first_name, :last_name],
                   :using => {
                     :tsearch => {:prefix => true},
-                    :trigram => { :threshold => 0.5 },
                   }
   self.table_name = 'directory'
 
