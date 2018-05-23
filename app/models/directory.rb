@@ -1,4 +1,5 @@
 class Directory < ApplicationRecord
+  include PgSearch
   self.table_name = 'directory'
 
   def full_name
