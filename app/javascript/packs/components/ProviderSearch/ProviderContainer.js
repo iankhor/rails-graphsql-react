@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ProviderTable from './ProviderTable'
+import { throttle } from 'lodash'
 import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input } from 'semantic-ui-react'
 import { buildDirectoryQuery } from './../../queries/Queries'
 import axios from 'axios'
@@ -14,12 +15,19 @@ export default class ProviderContainer extends Component {
       totalCount: 0,
       totalPages: 0,
       pageInfo: {},
-      dimmerActive: false
+      dimmerActive: false,
+      searchTerm: '',
     }
+
+    this.performSearch = throttle(this.performSearch, 3000);
   }
 
   componentDidMount = () => {
-    const query = buildDirectoryQuery({ navigateToNextPage: false, navigateToPreviousPage: false, pageInfo: this.state.pageInfo })
+    const query = buildDirectoryQuery({
+      navigateToNextPage: false,
+      navigateToPreviousPage: false,
+      pageInfo: this.state.pageInfo
+    })
     this.getProviders(query)
   }
 
@@ -30,15 +38,44 @@ export default class ProviderContainer extends Component {
   }
 
   goToNextPage = () => {
-    const query = buildDirectoryQuery({ navigateToNextPage: true, navigateToPreviousPage: false, pageInfo: this.state.pageInfo })
+    // const query = buildDirectoryQuery({ navigateToNextPage: true, navigateToPreviousPage: false, pageInfo: this.state.pageInfo })
+    const { pageInfo, searchTerm } = this.state
+    const query = buildDirectoryQuery({
+      navigateToNextPage: true,
+      navigateToPreviousPage: false,
+      pageInfo,
+      searchTerm
+    })
     this.getProviders(query)
     this.setState({ currentPageNumber: this.state.currentPageNumber + 1 })
   }
 
   goToPrevPage = () => {
-    const query = buildDirectoryQuery({ navigateToNextPage: false, navigateToPreviousPage: true, pageInfo: this.state.pageInfo })
-    this.getProviders(query)
+    // const query = buildDirectoryQuery({ navigateToNextPage: false, navigateToPreviousPage: true, pageInfo: this.state.pageInfo })
+    const { pageInfo, searchTerm } = this.state
+    const query = buildDirectoryQuery({
+      navigateToNextPage: false,
+      navigateToPreviousPage: true,
+      pageInfo,
+      searchTerm
+    })
     this.setState({ currentPageNumber: this.state.currentPageNumber - 1 })
+  }
+
+  performSearch = () => {
+    const { pageInfo, searchTerm } = this.state
+    const query = buildDirectoryQuery({
+      navigateToNextPage: false,
+      navigateToPreviousPage: false,
+      pageInfo,
+      searchTerm
+    })
+    this.getProviders(query)
+  }
+
+  handleSearch = ({ target: { value }}) => {
+    this.setState({ searchTerm: value })
+    this.performSearch();
   }
 
   render() {
@@ -67,7 +104,7 @@ export default class ProviderContainer extends Component {
             </Dimmer>
 
             <Segment inverted>
-              <Input fluid inverted icon='search' placeholder='Search...' />
+              <Input fluid inverted icon='search' placeholder='Search...' onChange={this.handleSearch}/>
             </Segment>
 
             <ProviderTable directory={this.state.directory}/>
