@@ -1,5 +1,6 @@
 class Directory < ApplicationRecord
   include PgSearch
+  multisearchable :against => [:first_name, :last_name]
   self.table_name = 'directory'
 
   def full_name
