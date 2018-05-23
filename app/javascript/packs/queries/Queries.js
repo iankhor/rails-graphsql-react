@@ -1,8 +1,8 @@
 export function buildDirectoryQuery({ navigateToNextPage, navigateToPreviousPage, pageInfo }) {
   const { endCursor, startCursor } = pageInfo
-  const nextPage = (navigateToNextPage && !navigateToPreviousPage) ? `after: "${endCursor}"` : ''
-  const previousPage = (!navigateToNextPage && navigateToPreviousPage) ? `before: "${startCursor}"` : ''
-  const args= `first:5 ${nextPage} ${previousPage}`
+  const nextPage = (navigateToNextPage && !navigateToPreviousPage) ? `first:5 after: "${endCursor}"` : ''
+  const previousPage = (!navigateToNextPage && navigateToPreviousPage) ? `last 5 before: "${startCursor}"` : ''
+  const args= `${nextPage} ${previousPage}`
 
   return(
     `{
