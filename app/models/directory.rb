@@ -1,6 +1,11 @@
 class Directory < ApplicationRecord
   include PgSearch
-  multisearchable :against => [:first_name, :last_name]
+  pg_search_scope :search_name,
+                  against: [:first_name, :last_name],
+                  :using => {
+                    :tsearch => {:prefix => true},
+                    :trigram => { :threshold => 0.5 },
+                  }
   self.table_name = 'directory'
 
   def full_name
