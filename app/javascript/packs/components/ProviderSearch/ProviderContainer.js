@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ProviderTable from './ProviderTable'
-import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic } from 'semantic-ui-react'
+import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input } from 'semantic-ui-react'
 import { buildDirectoryQuery } from './../../queries/Queries'
 import axios from 'axios'
 
@@ -44,19 +44,6 @@ export default class ProviderContainer extends Component {
   render() {
     return (
       <Container text style={{ marginTop: '7em' }}>
-      <Dimmer.Dimmable as={Segment} dimmed={this.state.dimmerActive}>
-          <Dimmer active={this.state.dimmerActive} inverted>
-            <Loader>Loading</Loader>
-          </Dimmer>
-
-          <ProviderTable directory={this.state.directory}/>
-      </Dimmer.Dimmable>
-
-        <Segment textAlign='center'>
-          <Button icon labelPosition='left' onClick={this.goToPrevPage}><Icon name='left arrow' />Prev</Button>
-          <Button icon labelPosition='right' onClick={this.goToNextPage}>Next<Icon name='right arrow' /></Button>
-        </Segment>
-
         <Segment>
           <Statistic.Group color='red' widths='three'>
             <Statistic>
@@ -73,6 +60,23 @@ export default class ProviderContainer extends Component {
             </Statistic>
           </Statistic.Group>
         </Segment>
+
+        <Dimmer.Dimmable as={Segment} dimmed={this.state.dimmerActive}>
+            <Dimmer active={this.state.dimmerActive} inverted>
+              <Loader>Loading</Loader>
+            </Dimmer>
+
+            <Segment inverted>
+              <Input fluid inverted icon='search' placeholder='Search...' />
+            </Segment>
+
+            <ProviderTable directory={this.state.directory}/>
+
+            <Segment textAlign='center'>
+            <Button icon labelPosition='left' onClick={this.goToPrevPage}><Icon name='left arrow' />Prev</Button>
+            <Button icon labelPosition='right' onClick={this.goToNextPage}>Next<Icon name='right arrow' /></Button>
+            </Segment>
+        </Dimmer.Dimmable>
       </Container>
     )
   }

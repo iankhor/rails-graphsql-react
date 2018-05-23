@@ -3,12 +3,7 @@ import { Table, Container, Input, Segment, Header, Button, Checkbox, Pagination 
 import Provider from './Provider'
 
 const ProviderTable = ({ directory }) => (
-  <div>
-    <Segment inverted>
-      <Input fluid inverted icon='search' placeholder='Search...' />
-    </Segment>
-
-    <Segment>
+  <Segment>
     <Table compact>
         <Table.Header>
           <Table.Row>
@@ -24,9 +19,7 @@ const ProviderTable = ({ directory }) => (
           { directory.map( ({ cursor, node: provider }) => <Provider {...provider} key={cursor}/> )}
         </Table.Body>
       </Table>
-
-    </Segment>
-  </div>
+  </Segment>
 )
 
 export default ProviderTable
