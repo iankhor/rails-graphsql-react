@@ -6,7 +6,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   connection :directory, Connections::DirectoryConnection do
     resolve ->(_obj, _args, _ctx) {
-       Directory.all.order('last_name')
+       Directory.all.order(:last_name, :first_name)
      }
   end
 
