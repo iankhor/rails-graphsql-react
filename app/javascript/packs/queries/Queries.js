@@ -28,3 +28,34 @@ export function buildDirectoryQuery({ navigateToNextPage, navigateToPreviousPage
     }`
   )
 }
+
+export function buildCreateProviderQuery(params) {
+  const {
+    title, first_name, last_name, gender, phone, email,
+    street_line_1, street_line_2, sublocality, locality,
+    country_code, postal_code
+  } = params
+
+  return (`
+    mutation {
+      createProvider(
+        title: "${title}",
+        first_name: "${first_name}",
+        last_name: "${last_name}",
+        gender: "${gender}",
+        email: "${email}",
+        phone: "${phone}",
+        street_line_1: "${street_line_1}",
+        street_line_2: "${street_line_2}",
+        sublocality: "${sublocality}",
+        locality: "${locality}",
+        country_code: "${country_code}"
+        postal_code: "${postal_code}"
+      ) {
+          id
+          full_name
+          full_address
+        }
+    }
+  `)
+}

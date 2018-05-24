@@ -26,7 +26,7 @@ class Resolvers::CreateProvider < GraphQL::Function
       email: args[:email],
       street_line_1: args[:street_line_1],
       street_line_2: args[:street_line_2],
-      sublocality: args[:street_line_2],
+      sublocality: args[:sublocality],
       locality: args[:locality],
       postal_code: args[:postal_code],
       country_code: args[:country_code],

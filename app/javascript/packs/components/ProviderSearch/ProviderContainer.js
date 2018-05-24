@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import ProviderTable from './ProviderTable'
 import { throttle } from 'lodash'
 import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input, Menu, Modal, Form, Divider } from 'semantic-ui-react'
-import { buildDirectoryQuery } from './../../queries/Queries'
+import { buildDirectoryQuery, buildCreateProviderQuery } from './../../queries/Queries'
 import axios from 'axios'
+import faker from 'faker'
 
 export default class ProviderContainer extends Component {
   constructor(props) {
@@ -19,6 +20,20 @@ export default class ProviderContainer extends Component {
       searchTerm: '',
       activeItem: 'home',
       openModal: false,
+      createProvider: {
+        title: '',
+        first_name: '',
+        email: '',
+        last_name: '',
+        gender: '',
+        phone: '',
+        street_line_1: '',
+        street_line_2: '',
+        sublocality: '',
+        locality: '',
+        country_code: '',
+        postal_code: ''
+      }
     }
 
     this.performSearch = throttle(this.performSearch, 1000);
@@ -37,6 +52,31 @@ export default class ProviderContainer extends Component {
     this.setState({ dimmerActive: true })
     const { data: { data: { directory: { edges, totalPages, pageInfo, totalCount } } } } = await axios.post('/graphql', { query })
     this.setState({ directory: edges, totalPages, pageInfo, dimmerActive: false, totalCount })
+  }
+
+  createProvider = async () => {
+    console.log('createProvider')
+    // const query = buildCreateProviderQuery(this.state.createProvider)
+
+    const fakeProvider = {
+      title: faker.name.suffix(),
+      first_name: faker.name.firstName(),
+      last_name: faker.name.lastName(),
+      email: faker.internet.email(),
+      gender: ['Male', 'Female'][Math.floor(Math.random() * 2)],
+      phone: faker.phone.phoneNumber(),
+      street_line_1: faker.address.streetAddress(),
+      street_line_2: faker.address.secondaryAddress(),
+      sublocality: faker.address.city(),
+      locality: faker.address.state(),
+      country_code: faker.address.countryCode(),
+      postal_code: faker.address.zipCode()
+    }
+    const query = buildCreateProviderQuery(fakeProvider)
+
+    const { data: { data: { createProvider: { full_name, full_address, id } } }} = await axios.post('/graphql', { query })
+    this.setState({ openModal: false })
+    alert(`The user ${full_name} was created with address ${full_address} with id ${id}`)
   }
 
   goToNextPage = () => {
@@ -177,7 +217,7 @@ export default class ProviderContainer extends Component {
             </Modal.Content>
 
             <Modal.Actions>
-              <Button positive icon='checkmark' labelPosition='right' content="Create Provider" onClick={this.closeModal} />
+              <Button positive icon='checkmark' labelPosition='right' content="Create Provider" onClick={this.createProvider} />
               <Button secondary color='black' onClick={this.closeModal}>Cancel</Button>
             </Modal.Actions>
         </Modal>
