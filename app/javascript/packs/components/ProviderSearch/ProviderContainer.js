@@ -77,6 +77,13 @@ export default class ProviderContainer extends Component {
     const { data: { data: { createProvider: { full_name, full_address, id } } }} = await axios.post('/graphql', { query })
     this.setState({ openModal: false })
     alert(`The user ${full_name} was created with address ${full_address} with id ${id}`)
+
+    const queryDirectory = buildDirectoryQuery({
+      navigateToNextPage: false,
+      navigateToPreviousPage: false,
+      pageInfo: this.state.pageInfo
+    })
+    this.getProviders(queryDirectory)
   }
 
   goToNextPage = () => {
@@ -185,31 +192,43 @@ export default class ProviderContainer extends Component {
                 <Segment>
                   <Divider horizontal>Provider Name</Divider>
                   <Form.Group widths='equal'>
-                  <Form.Field id='first-name' control={Input} label='Title' placeholder='Title' />
-                  <Form.Field id='first-name' control={Input} label='First name' placeholder='First name' />
-                  <Form.Field id='last-name' control={Input} label='Last name' placeholder='Last name' />
+                    <Form.Field id='first-name' control={Input} label='Title' placeholder='Title' />
+                    <Form.Field id='first-name' control={Input} label='First name' placeholder='First name' />
+                    <Form.Field id='last-name' control={Input} label='Last name' placeholder='Last name' />
                   </Form.Group>
                 </Segment>
 
                 <Segment>
                   <Divider horizontal>Address</Divider>
                   <Form.Group widths='equal'>
-                  <Form.Field id='steet_1' control={Input} label='Street 1' placeholder='Street 1' />
-                  <Form.Field id='street_2' control={Input} label='Street 2' placeholder='Street 2' />
+                    <Form.Field id='steet_1' control={Input} label='Street 1' placeholder='Street 1' />
                   </Form.Group>
 
                   <Form.Group widths='equal'>
-                  <Form.Field id='sublocality' control={Input} label='Suburb' placeholder='Suburb' />
-                  <Form.Field id='locality' control={Input} label='City' placeholder='City' />
-                  <Form.Field id='country' control={Input} label='Country' placeholder='Country' />
+                    <Form.Field id='street_2' control={Input} label='Street 2' placeholder='Street 2' />
+                  </Form.Group>
+
+                  <Form.Group widths='equal'>
+                    <Form.Field id='sublocality' control={Input} label='Suburb' placeholder='Suburb' />
+                  </Form.Group>
+
+                  <Form.Group widths='equal'>
+                    <Form.Field id='locality' control={Input} label='City' placeholder='City' />
+                  </Form.Group>
+
+                  <Form.Group widths='equal'>
+                    <Form.Field id='country' control={Input} label='Country' placeholder='Country' />
                   </Form.Group>
                 </Segment>
 
                 <Segment>
                   <Divider horizontal>Contact</Divider>
                   <Form.Group widths='equal'>
-                  <Form.Field id='phone' control={Input} label='Phone' placeholder='Phone' />
-                  <Form.Field id='email' control={Input} label='Email' placeholder='Email' />
+                    <Form.Field id='phone' control={Input} label='Phone' placeholder='Phone' />
+                  </Form.Group>
+
+                  <Form.Group widths='equal'>
+                    <Form.Field id='email' control={Input} label='Email' placeholder='Email' />
                   </Form.Group>
                 </Segment>
               </Form>
