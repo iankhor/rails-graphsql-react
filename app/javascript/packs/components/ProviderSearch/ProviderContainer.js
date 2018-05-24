@@ -84,18 +84,22 @@ export default class ProviderContainer extends Component {
   render() {
     return (
       <Container text style={{ marginTop: '7em' }}>
-          <Menu widths={1} fixed="top">
-            <Menu.Menu>
-              <Menu.Item>
-                <Input
-                  size='large'
-                  icon='search'
-                  placeholder='Search provider name'
-                  onChange={this.handleSearch}
-                  style={{ width: '600px' }}
-                />
-              </Menu.Item>
-            </Menu.Menu>
+          <Menu fixed="top">
+            <Menu.Item position='left'>
+              <Input
+                size='large'
+                icon='search'
+                placeholder='Search provider name'
+                onChange={this.handleSearch}
+                style={{ width: '700px' }}
+              />
+            </Menu.Item>
+            <Menu.Item position='right'>
+              <Button animated='fade'>
+                <Button.Content visible>Create</Button.Content>
+                <Button.Content hidden>Provider</Button.Content>
+              </Button>
+            </Menu.Item>
           </Menu>
 
         <Segment>

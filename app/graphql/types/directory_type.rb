@@ -6,4 +6,5 @@ Types::DirectoryType = GraphQL::ObjectType.define do
   field :gender, types.String
   field :phone, types.String
   field :email, types.String
+  field :id, types.String
 end
