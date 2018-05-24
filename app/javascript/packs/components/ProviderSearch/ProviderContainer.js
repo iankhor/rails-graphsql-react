@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ProviderTable from './ProviderTable'
 import { throttle } from 'lodash'
-import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input, Menu } from 'semantic-ui-react'
+import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input, Menu, Modal, Form, Divider } from 'semantic-ui-react'
 import { buildDirectoryQuery } from './../../queries/Queries'
 import axios from 'axios'
 
@@ -17,7 +17,8 @@ export default class ProviderContainer extends Component {
       pageInfo: {},
       dimmerActive: false,
       searchTerm: '',
-      activeItem: 'home'
+      activeItem: 'home',
+      openModal: false,
     }
 
     this.performSearch = throttle(this.performSearch, 1000);
@@ -81,6 +82,10 @@ export default class ProviderContainer extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
+  openModal = () => this.setState({ openModal: true })
+
+  closeModal = () => this.setState({ openModal: false })
+
   render() {
     return (
       <Container text style={{ marginTop: '7em' }}>
@@ -95,7 +100,7 @@ export default class ProviderContainer extends Component {
               />
             </Menu.Item>
             <Menu.Item position='right'>
-              <Button animated='fade'>
+              <Button color='blue' animated='fade' onClick={this.openModal}>
                 <Button.Content visible>Create</Button.Content>
                 <Button.Content hidden>Provider</Button.Content>
               </Button>
@@ -131,6 +136,51 @@ export default class ProviderContainer extends Component {
           <Button icon labelPosition='right' onClick={this.goToNextPage}>Next<Icon name='right arrow' /></Button>
           </Segment>
         </Dimmer.Dimmable>
+
+        <Modal dimmer={'blurring'} open={this.state.openModal} onClose={this.closeModal}>
+          <Modal.Header>Create a Provider</Modal.Header>
+            <Modal.Content>
+              <Modal.Description>
+              <Form>
+                <Segment>
+                  <Divider horizontal>Provider Name</Divider>
+                  <Form.Group widths='equal'>
+                  <Form.Field id='first-name' control={Input} label='Title' placeholder='Title' />
+                  <Form.Field id='first-name' control={Input} label='First name' placeholder='First name' />
+                  <Form.Field id='last-name' control={Input} label='Last name' placeholder='Last name' />
+                  </Form.Group>
+                </Segment>
+
+                <Segment>
+                  <Divider horizontal>Address</Divider>
+                  <Form.Group widths='equal'>
+                  <Form.Field id='steet_1' control={Input} label='Street 1' placeholder='Street 1' />
+                  <Form.Field id='street_2' control={Input} label='Street 2' placeholder='Street 2' />
+                  </Form.Group>
+
+                  <Form.Group widths='equal'>
+                  <Form.Field id='sublocality' control={Input} label='Suburb' placeholder='Suburb' />
+                  <Form.Field id='locality' control={Input} label='City' placeholder='City' />
+                  <Form.Field id='country' control={Input} label='Country' placeholder='Country' />
+                  </Form.Group>
+                </Segment>
+
+                <Segment>
+                  <Divider horizontal>Contact</Divider>
+                  <Form.Group widths='equal'>
+                  <Form.Field id='phone' control={Input} label='Phone' placeholder='Phone' />
+                  <Form.Field id='email' control={Input} label='Email' placeholder='Email' />
+                  </Form.Group>
+                </Segment>
+              </Form>
+              </Modal.Description>
+            </Modal.Content>
+
+            <Modal.Actions>
+              <Button positive icon='checkmark' labelPosition='right' content="Create Provider" onClick={this.closeModal} />
+              <Button secondary color='black' onClick={this.closeModal}>Cancel</Button>
+            </Modal.Actions>
+        </Modal>
       </Container>
     )
   }
