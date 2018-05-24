@@ -1,8 +1,8 @@
-export function buildDirectoryQuery({ navigateToNextPage, navigateToPreviousPage, pageInfo, searchTerm = '' }) {
+export function buildDirectoryQuery({ navigateToNextPage, navigateToPreviousPage, pageInfo, searchTerm = '', pageSize = 80 }) {
   const { endCursor, startCursor } = pageInfo
-  const nextPage = (navigateToNextPage && !navigateToPreviousPage) ? `first:5 after: "${endCursor}"` : ''
-  const previousPage = (!navigateToNextPage && navigateToPreviousPage) ? `last:5 before: "${startCursor}"` : ''
-  const init = (!navigateToNextPage && !navigateToPreviousPage) ? `first:5` : ''
+  const nextPage = (navigateToNextPage && !navigateToPreviousPage) ? `first:${pageSize} after: "${endCursor}"` : ''
+  const previousPage = (!navigateToNextPage && navigateToPreviousPage) ? `last:${pageSize} before: "${startCursor}"` : ''
+  const init = (!navigateToNextPage && !navigateToPreviousPage) ? `first:${pageSize}` : ''
   const args= `${init} ${nextPage} ${previousPage} searchTerm: "${searchTerm}"` //need better logic here
 
   return(

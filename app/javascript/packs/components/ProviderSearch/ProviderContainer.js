@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ProviderTable from './ProviderTable'
 import { throttle } from 'lodash'
-import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input } from 'semantic-ui-react'
+import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input, Menu } from 'semantic-ui-react'
 import { buildDirectoryQuery } from './../../queries/Queries'
 import axios from 'axios'
 
@@ -17,9 +17,10 @@ export default class ProviderContainer extends Component {
       pageInfo: {},
       dimmerActive: false,
       searchTerm: '',
+      activeItem: 'home'
     }
 
-    this.performSearch = throttle(this.performSearch, 3000);
+    this.performSearch = throttle(this.performSearch, 1000);
   }
 
   componentDidMount = () => {
@@ -78,9 +79,25 @@ export default class ProviderContainer extends Component {
     this.performSearch();
   }
 
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
   render() {
     return (
       <Container text style={{ marginTop: '7em' }}>
+          <Menu widths={1} fixed="top">
+            <Menu.Menu>
+              <Menu.Item>
+                <Input
+                  size='large'
+                  icon='search'
+                  placeholder='Search provider name'
+                  onChange={this.handleSearch}
+                  style={{ width: '600px' }}
+                />
+              </Menu.Item>
+            </Menu.Menu>
+          </Menu>
+
         <Segment>
           <Statistic.Group color='red' widths='three'>
             <Statistic>
@@ -99,20 +116,16 @@ export default class ProviderContainer extends Component {
         </Segment>
 
         <Dimmer.Dimmable as={Segment} dimmed={this.state.dimmerActive}>
-            <Dimmer active={this.state.dimmerActive} inverted>
-              <Loader>Loading</Loader>
-            </Dimmer>
+          <Dimmer active={this.state.dimmerActive} inverted>
+            <Loader>Loading</Loader>
+          </Dimmer>
 
-            <Segment inverted>
-              <Input fluid inverted icon='search' placeholder='Search...' onChange={this.handleSearch}/>
-            </Segment>
+          <ProviderTable directory={this.state.directory}/>
 
-            <ProviderTable directory={this.state.directory}/>
-
-            <Segment textAlign='center'>
-            <Button icon labelPosition='left' onClick={this.goToPrevPage}><Icon name='left arrow' />Prev</Button>
-            <Button icon labelPosition='right' onClick={this.goToNextPage}>Next<Icon name='right arrow' /></Button>
-            </Segment>
+          <Segment textAlign='center'>
+          <Button icon labelPosition='left' onClick={this.goToPrevPage}><Icon name='left arrow' />Prev</Button>
+          <Button icon labelPosition='right' onClick={this.goToNextPage}>Next<Icon name='right arrow' /></Button>
+          </Segment>
         </Dimmer.Dimmable>
       </Container>
     )
