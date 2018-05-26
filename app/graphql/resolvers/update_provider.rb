@@ -19,7 +19,10 @@ module Resolvers
     type Types::DirectoryType
 
     def call(_obj, args, _ctx)
-      Directory.find(args[:id])
+      params = args.to_h.except('id')
+      provider = Directory.find(args[:id])
+      provider.update_attributes!(params)
+      provider
     end
   end
 end
