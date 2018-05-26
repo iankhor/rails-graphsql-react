@@ -19,6 +19,7 @@ export function buildDirectoryQuery({ navigateToNextPage, navigateToPreviousPage
         edges {
           cursor
           node {
+            id
             full_name
             full_address
             phone
@@ -56,6 +57,28 @@ export function buildCreateProviderQuery(params) {
           full_name
           full_address
         }
+    }
+  `)
+}
+
+export function buildGetProviderQuery(id) {
+
+  return (`
+    query {
+      getProvider(id: ${id}) {
+        title
+        first_name
+        last_name
+        gender
+        email
+        phone
+        street_line_1
+        street_line_2
+        sublocality
+        locality
+        country_code
+        postal_code
+      }
     }
   `)
 }

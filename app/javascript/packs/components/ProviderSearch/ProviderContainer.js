@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ProviderTable from './ProviderTable'
 import { throttle } from 'lodash'
 import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input, Menu, Modal, Form, Divider } from 'semantic-ui-react'
-import { buildDirectoryQuery, buildCreateProviderQuery } from './../../queries/Queries'
+import { buildDirectoryQuery, buildCreateProviderQuery, buildGetProviderQuery } from './../../queries/Queries'
 import axios from 'axios'
 import faker from 'faker'
 
@@ -54,6 +54,12 @@ export default class ProviderContainer extends Component {
     this.setState({ directory: edges, totalPages, pageInfo, dimmerActive: false, totalCount })
   }
 
+  getProvider = async (id) => {
+    const query = buildGetProviderQuery(id)
+    const { data: { data: { getProvider } } }= await axios.post('/graphql', { query })
+    console.log(getProvider)
+  }
+
   createProvider = async () => {
     console.log('createProvider')
     // const query = buildCreateProviderQuery(this.state.createProvider)
@@ -87,7 +93,6 @@ export default class ProviderContainer extends Component {
   }
 
   goToNextPage = () => {
-    // const query = buildDirectoryQuery({ navigateToNextPage: true, navigateToPreviousPage: false, pageInfo: this.state.pageInfo })
     const { pageInfo, searchTerm } = this.state
     const query = buildDirectoryQuery({
       navigateToNextPage: true,
@@ -100,7 +105,6 @@ export default class ProviderContainer extends Component {
   }
 
   goToPrevPage = () => {
-    // const query = buildDirectoryQuery({ navigateToNextPage: false, navigateToPreviousPage: true, pageInfo: this.state.pageInfo })
     const { pageInfo, searchTerm } = this.state
     const query = buildDirectoryQuery({
       navigateToNextPage: false,
@@ -176,7 +180,7 @@ export default class ProviderContainer extends Component {
             <Loader>Loading</Loader>
           </Dimmer>
 
-          <ProviderTable directory={this.state.directory}/>
+          <ProviderTable directory={this.state.directory} getProvider={this.getProvider}/>
 
           <Segment textAlign='center'>
           <Button icon labelPosition='left' onClick={this.goToPrevPage}><Icon name='left arrow' />Prev</Button>

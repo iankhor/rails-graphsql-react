@@ -2,7 +2,7 @@ import React from 'react'
 import { Table, Container, Input, Segment, Header, Button, Checkbox, Pagination } from 'semantic-ui-react'
 import Provider from './Provider'
 
-const ProviderTable = ({ directory }) => (
+const ProviderTable = ({ directory, getProvider } ) => (
   <Segment>
     <Table compact>
         <Table.Header>
@@ -16,7 +16,7 @@ const ProviderTable = ({ directory }) => (
         </Table.Header>
 
         <Table.Body>
-          { directory.map( ({ cursor, node: provider }) => <Provider {...provider} key={cursor}/> )}
+          { directory.map( ({ cursor, node: provider }) => <Provider {...provider} key={cursor} getProvider={getProvider}/> )}
         </Table.Body>
       </Table>
   </Segment>
