@@ -6,4 +6,6 @@ Types::QueryType = GraphQL::ObjectType.define do
 
     resolve Resolvers::GetProviders.new
   end
+
+  field :getProvider, function: Resolvers::GetProvider.new
 end
