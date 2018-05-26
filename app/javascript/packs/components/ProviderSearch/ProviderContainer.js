@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import ProviderTable from './ProviderTable'
+import ProviderForm from './ProviderForm'
+import NavigationBar from './NavigationBar'
+import Stats from './Stats'
 import { throttle } from 'lodash'
-import { Pagination, Icon, Button, Container, Segment, Dimmer, Loader, Statistic, Input, Menu, Modal, Form, Divider } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import { buildDirectoryQuery, buildCreateProviderQuery, buildGetProviderQuery } from './../../queries/Queries'
 import axios from 'axios'
 import faker from 'faker'
@@ -20,19 +23,11 @@ export default class ProviderContainer extends Component {
       searchTerm: '',
       activeItem: 'home',
       openModal: false,
-      createProvider: {
-        title: '',
-        first_name: '',
-        email: '',
-        last_name: '',
-        gender: '',
-        phone: '',
-        street_line_1: '',
-        street_line_2: '',
-        sublocality: '',
-        locality: '',
-        country_code: '',
-        postal_code: ''
+      provider: {
+        title: '', first_name: '', last_name: '', gender: '',
+        email: '', phone: '',
+        street_line_1: '',  street_line_2: '',
+        sublocality: '', locality: '',  country_code: '', postal_code: ''
       }
     }
 
@@ -57,12 +52,12 @@ export default class ProviderContainer extends Component {
   getProvider = async (id) => {
     const query = buildGetProviderQuery(id)
     const { data: { data: { getProvider } } }= await axios.post('/graphql', { query })
-    console.log(getProvider)
+    this.setState({ provider: getProvider })
+
   }
 
   createProvider = async () => {
-    console.log('createProvider')
-    // const query = buildCreateProviderQuery(this.state.createProvider)
+    // const query = buildCreateProviderQuery(this.state.provider)
 
     const fakeProvider = {
       title: faker.name.suffix(),
@@ -140,110 +135,26 @@ export default class ProviderContainer extends Component {
   render() {
     return (
       <Container text style={{ marginTop: '7em' }}>
-          <Menu fixed="top">
-            <Menu.Item position='left'>
-              <Input
-                size='large'
-                icon='search'
-                placeholder='Search provider name'
-                onChange={this.handleSearch}
-                style={{ width: '700px' }}
-              />
-            </Menu.Item>
-            <Menu.Item position='right'>
-              <Button color='blue' animated='fade' onClick={this.openModal}>
-                <Button.Content visible>Create</Button.Content>
-                <Button.Content hidden>Provider</Button.Content>
-              </Button>
-            </Menu.Item>
-          </Menu>
+        <NavigationBar searchOnChange={this.handleSearch} createOnClick={this.openModal} />
 
-        <Segment>
-          <Statistic.Group color='red' widths='three'>
-            <Statistic>
-              <Statistic.Value>{this.state.currentPageNumber}</Statistic.Value>
-              <Statistic.Label>Current Page</Statistic.Label>
-            </Statistic>
-            <Statistic>
-              <Statistic.Value>{this.state.totalPages}</Statistic.Value>
-              <Statistic.Label>Total Pages</Statistic.Label>
-            </Statistic>
-            <Statistic>
-              <Statistic.Value>{this.state.totalCount}</Statistic.Value>
-              <Statistic.Label>Total Providers</Statistic.Label>
-            </Statistic>
-          </Statistic.Group>
-        </Segment>
+        <Stats currentPageNumber={this.state.currentPageNumber} totalPages={this.state.totalPages} totalCount={this.state.totalCount}/>
 
-        <Dimmer.Dimmable as={Segment} dimmed={this.state.dimmerActive}>
-          <Dimmer active={this.state.dimmerActive} inverted>
-            <Loader>Loading</Loader>
-          </Dimmer>
+        <ProviderTable
+          dimmerDimmed={this.state.dimmerActive}
+          dimmerActive={this.state.dimmerActive}
+          directory={this.state.directory}
+          getProvider={this.getProvider}
+          onClickNextPage={this.goToPrevPage}
+          onClickPrevPage={this.goToNextPage}
+        />
 
-          <ProviderTable directory={this.state.directory} getProvider={this.getProvider}/>
-
-          <Segment textAlign='center'>
-          <Button icon labelPosition='left' onClick={this.goToPrevPage}><Icon name='left arrow' />Prev</Button>
-          <Button icon labelPosition='right' onClick={this.goToNextPage}>Next<Icon name='right arrow' /></Button>
-          </Segment>
-        </Dimmer.Dimmable>
-
-        <Modal dimmer={'blurring'} open={this.state.openModal} onClose={this.closeModal}>
-          <Modal.Header>Create a Provider</Modal.Header>
-            <Modal.Content>
-              <Modal.Description>
-              <Form>
-                <Segment>
-                  <Divider horizontal>Provider Name</Divider>
-                  <Form.Group widths='equal'>
-                    <Form.Field id='first-name' control={Input} label='Title' placeholder='Title' />
-                    <Form.Field id='first-name' control={Input} label='First name' placeholder='First name' />
-                    <Form.Field id='last-name' control={Input} label='Last name' placeholder='Last name' />
-                  </Form.Group>
-                </Segment>
-
-                <Segment>
-                  <Divider horizontal>Address</Divider>
-                  <Form.Group widths='equal'>
-                    <Form.Field id='steet_1' control={Input} label='Street 1' placeholder='Street 1' />
-                  </Form.Group>
-
-                  <Form.Group widths='equal'>
-                    <Form.Field id='street_2' control={Input} label='Street 2' placeholder='Street 2' />
-                  </Form.Group>
-
-                  <Form.Group widths='equal'>
-                    <Form.Field id='sublocality' control={Input} label='Suburb' placeholder='Suburb' />
-                  </Form.Group>
-
-                  <Form.Group widths='equal'>
-                    <Form.Field id='locality' control={Input} label='City' placeholder='City' />
-                  </Form.Group>
-
-                  <Form.Group widths='equal'>
-                    <Form.Field id='country' control={Input} label='Country' placeholder='Country' />
-                  </Form.Group>
-                </Segment>
-
-                <Segment>
-                  <Divider horizontal>Contact</Divider>
-                  <Form.Group widths='equal'>
-                    <Form.Field id='phone' control={Input} label='Phone' placeholder='Phone' />
-                  </Form.Group>
-
-                  <Form.Group widths='equal'>
-                    <Form.Field id='email' control={Input} label='Email' placeholder='Email' />
-                  </Form.Group>
-                </Segment>
-              </Form>
-              </Modal.Description>
-            </Modal.Content>
-
-            <Modal.Actions>
-              <Button positive icon='checkmark' labelPosition='right' content="Create Provider" onClick={this.createProvider} />
-              <Button secondary color='black' onClick={this.closeModal}>Cancel</Button>
-            </Modal.Actions>
-        </Modal>
+        <ProviderForm
+          {...this.state.provider}
+          modalOpen={this.state.openModal}
+          modalOnClose={this.closeModal}
+          createUpdateOnclick={this.createProvider}
+          cancelOnClick={this.closeModal}
+        />
       </Container>
     )
   }
