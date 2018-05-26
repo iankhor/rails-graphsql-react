@@ -5,7 +5,7 @@ import NavigationBar from './NavigationBar'
 import Stats from './Stats'
 import { throttle } from 'lodash'
 import { Container } from 'semantic-ui-react'
-import { buildDirectoryQuery, buildCreateProviderQuery, buildGetProviderQuery } from './../../queries/Queries'
+import { buildDirectoryQuery, buildCreateProviderQuery, buildGetProviderQuery, buildDeleteProviderQuery } from './../../queries/Queries'
 import axios from 'axios'
 import faker from 'faker'
 
@@ -78,7 +78,16 @@ export default class ProviderContainer extends Component {
     const { data: { data: { createProvider: { full_name, full_address, id } } }} = await axios.post('/graphql', { query })
     this.setState({ openModal: false })
     alert(`The user ${full_name} was created with address ${full_address} with id ${id}`)
+    this.refreshDirectory()
+  }
 
+  deleteProvider = async (id) => {
+    const query = buildDeleteProviderQuery(id)
+    await axios.post('/graphql', { query })
+    this.refreshDirectory()
+  }
+
+  refreshDirectory = () => {
     const queryDirectory = buildDirectoryQuery({
       navigateToNextPage: false,
       navigateToPreviousPage: false,
@@ -142,7 +151,7 @@ export default class ProviderContainer extends Component {
   render() {
     return (
       <Container text style={{ marginTop: '7em' }}>
-        <NavigationBar searchOnChange={this.handleSearch} createOnClick={this.openModal} />
+        <NavigationBar searchOnChange={this.handleSearch} createOnClick={this.openModalCreateProvider} />
 
         <Stats currentPageNumber={this.state.currentPageNumber} totalPages={this.state.totalPages} totalCount={this.state.totalCount}/>
 
@@ -151,6 +160,7 @@ export default class ProviderContainer extends Component {
           dimmerActive={this.state.dimmerActive}
           directory={this.state.directory}
           getProvider={this.openModalUpdateProvider}
+          deleteProvider={this.deleteProvider}
           onClickNextPage={this.goToPrevPage}
           onClickPrevPage={this.goToNextPage}
         />
@@ -159,7 +169,7 @@ export default class ProviderContainer extends Component {
           {...this.state.provider}
           modalOpen={this.state.openModal}
           modalOnClose={this.closeModal}
-          createUpdateOnclick={this.createProvider}
+          createOnclick={this.createProvider}
           cancelOnClick={this.closeModal}
         />
       </Container>

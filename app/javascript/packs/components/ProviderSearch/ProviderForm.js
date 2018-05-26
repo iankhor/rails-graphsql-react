@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Segment, Form, Divider, Input, Modal } from 'semantic-ui-react'
 
-const ProviderForm = ({ id, title, first_name, last_name, gender, phone, email, street_line_1, street_line_2, sublocality, locality, country_code, modalOpen, modalOnClose, createUpdateOnclick, cancelOnClick }) => (
+const ProviderForm = ({ id, title, first_name, last_name, gender, phone, email, street_line_1, street_line_2, sublocality, locality, country_code, modalOpen, modalOnClose, createOnclick, cancelOnClick }) => (
   <Modal dimmer={'blurring'} open={modalOpen} onClose={modalOnClose}>
     <Modal.Header>Create a Provider</Modal.Header>
       <Modal.Content>
@@ -54,7 +54,7 @@ const ProviderForm = ({ id, title, first_name, last_name, gender, phone, email, 
       </Modal.Content>
 
       <Modal.Actions>
-        <Button positive icon='checkmark' labelPosition='right' content="Create Provider" onClick={createUpdateOnclick} />
+        <Button positive icon='checkmark' labelPosition='right' content="Create Provider" onClick={createOnclick} />
         <Button secondary color='black' onClick={cancelOnClick}>Cancel</Button>
       </Modal.Actions>
   </Modal>

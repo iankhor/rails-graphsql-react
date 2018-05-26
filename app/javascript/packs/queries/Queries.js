@@ -82,3 +82,18 @@ export function buildGetProviderQuery(id) {
     }
   `)
 }
+
+export function buildDeleteProviderQuery(id) {
+
+  return (`
+    mutation {
+      deleteProvider(id: ${id})
+      {
+        id
+        full_name
+        full_address
+        gender
+      }
+    }
+  `)
+}
