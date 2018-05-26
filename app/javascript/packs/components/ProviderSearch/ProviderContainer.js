@@ -31,18 +31,11 @@ export default class ProviderContainer extends Component {
       }
     }
 
-    this.performSearch = throttle(this.performSearch, 1000);
+    this.performSearch = throttle(this.performSearch, 1200);
     this.blankProvider = this.state.provider;
   }
 
-  componentDidMount = () => {
-    const query = buildDirectoryQuery({
-      navigateToNextPage: false,
-      navigateToPreviousPage: false,
-      pageInfo: this.state.pageInfo
-    })
-    this.getProviders(query)
-  }
+  componentDidMount = () => this.getProviders(buildDirectoryQuery({}))
 
   getProviders = async (query) => {
     this.setState({ dimmerActive: true })
@@ -57,6 +50,7 @@ export default class ProviderContainer extends Component {
   }
 
   createProvider = async () => {
+    // to implement create provider later
     // const query = buildCreateProviderQuery(this.state.provider)
 
     const fakeProvider = {
@@ -77,65 +71,38 @@ export default class ProviderContainer extends Component {
 
     const { data: { data: { createProvider: { full_name, full_address, id } } }} = await axios.post('/graphql', { query })
     this.setState({ openModal: false })
+    this.getProviders(buildDirectoryQuery({}))
     alert(`The user ${full_name} was created with address ${full_address} with id ${id}`)
-    this.refreshDirectory()
   }
 
   deleteProvider = async (id) => {
     const query = buildDeleteProviderQuery(id)
-    await axios.post('/graphql', { query })
-    this.refreshDirectory()
-  }
-
-  refreshDirectory = () => {
-    const queryDirectory = buildDirectoryQuery({
-      navigateToNextPage: false,
-      navigateToPreviousPage: false,
-      pageInfo: this.state.pageInfo
-    })
-    this.getProviders(queryDirectory)
+    const { data: { data: { deleteProvider: { full_name } }}} = await axios.post('/graphql', { query })
+    this.getProviders(buildDirectoryQuery({}))
+    alert(`The user ${full_name} was deleted`)
   }
 
   goToNextPage = () => {
     const { pageInfo, searchTerm } = this.state
-    const query = buildDirectoryQuery({
-      navigateToNextPage: true,
-      navigateToPreviousPage: false,
-      pageInfo,
-      searchTerm
-    })
-    this.getProviders(query)
+    this.getProviders(buildDirectoryQuery({ navigateToNextPage: true, pageInfo, searchTerm }))
     this.setState({ currentPageNumber: this.state.currentPageNumber + 1 })
   }
 
   goToPrevPage = () => {
     const { pageInfo, searchTerm } = this.state
-    const query = buildDirectoryQuery({
-      navigateToNextPage: false,
-      navigateToPreviousPage: true,
-      pageInfo,
-      searchTerm
-    })
+    this.getProviders(buildDirectoryQuery({ navigateToPreviousPage: true, pageInfo, searchTerm }))
     this.setState({ currentPageNumber: this.state.currentPageNumber - 1 })
   }
 
   performSearch = () => {
     const { pageInfo, searchTerm } = this.state
-    const query = buildDirectoryQuery({
-      navigateToNextPage: false,
-      navigateToPreviousPage: false,
-      pageInfo,
-      searchTerm
-    })
-    this.getProviders(query)
+    this.getProviders(buildDirectoryQuery({ pageInfo, searchTerm }))
   }
 
-  handleSearch = ({ target: { value }}) => {
-    this.setState({ searchTerm: value })
+  handleSearch = ({ target: { value: searchTerm }}) => {
+    this.setState({ searchTerm })
     this.performSearch();
   }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   openModalCreateProvider = () => {
     this.setState({ openModal: true, provider: this.blankProvider })
