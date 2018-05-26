@@ -32,6 +32,7 @@ export default class ProviderContainer extends Component {
     }
 
     this.performSearch = throttle(this.performSearch, 1000);
+    this.blankProvider = this.state.provider;
   }
 
   componentDidMount = () => {
@@ -53,7 +54,6 @@ export default class ProviderContainer extends Component {
     const query = buildGetProviderQuery(id)
     const { data: { data: { getProvider } } }= await axios.post('/graphql', { query })
     this.setState({ provider: getProvider })
-
   }
 
   createProvider = async () => {
@@ -128,7 +128,14 @@ export default class ProviderContainer extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-  openModal = () => this.setState({ openModal: true })
+  openModalCreateProvider = () => {
+    this.setState({ openModal: true, provider: this.blankProvider })
+  }
+
+  openModalUpdateProvider = (id) => {
+    this.setState({ openModal: true })
+    this.getProvider(id)
+  }
 
   closeModal = () => this.setState({ openModal: false })
 
@@ -143,7 +150,7 @@ export default class ProviderContainer extends Component {
           dimmerDimmed={this.state.dimmerActive}
           dimmerActive={this.state.dimmerActive}
           directory={this.state.directory}
-          getProvider={this.getProvider}
+          getProvider={this.openModalUpdateProvider}
           onClickNextPage={this.goToPrevPage}
           onClickPrevPage={this.goToNextPage}
         />
