@@ -1,7 +1,7 @@
 Types::QueryType = GraphQL::ObjectType.define do
   name "Query"
 
-  connection :directory, Connections::DirectoryConnection do
+  connection :getAllProviders, Connections::DirectoryConnection do
     argument :searchTerm, types.String
 
     resolve Resolvers::GetAllProviders.new
