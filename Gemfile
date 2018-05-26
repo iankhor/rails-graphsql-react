@@ -23,9 +23,6 @@ gem 'faker'
 
 gem 'graphiql-rails'
 gem 'graphql'
-gem 'search_object', '1.2.0'
-gem 'search_object_graphql', '0.1'
-
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
