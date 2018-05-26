@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Button, Checkbox } from 'semantic-ui-react'
 
-const Provider = ({ full_name: providerName, full_address: address, phone }) => (
+const Provider = ({ id, full_name: providerName, full_address: address, phone }) => (
   <Table.Row>
     <Table.Cell collapsing><Checkbox /></Table.Cell>
     <Table.Cell>{providerName}</Table.Cell>
@@ -9,9 +9,8 @@ const Provider = ({ full_name: providerName, full_address: address, phone }) => 
     <Table.Cell>{phone}</Table.Cell>
     <Table.Cell>
       <Button.Group>
-          <Button icon='play' />
-          <Button icon='pause' />
-          <Button icon='shuffle' />
+          <Button icon='pencil' onClick={ () => console.log(id) }/>
+          <Button icon='trash' />
       </Button.Group>
     </Table.Cell>
   </Table.Row>

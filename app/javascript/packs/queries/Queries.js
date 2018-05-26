@@ -7,7 +7,7 @@ export function buildDirectoryQuery({ navigateToNextPage, navigateToPreviousPage
 
   return(
     `{
-      getAllProviders(${args}) {
+      directory(${args}) {
         totalCount
         totalPages
         pageInfo {
