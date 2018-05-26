@@ -1,11 +1,13 @@
 module Resolvers
-  class GetProvider < GraphQL::Function
+  class DeleteProvider < GraphQL::Function
     argument :id, types.Int
 
     type Types::DirectoryType
 
     def call(_obj, args, _ctx)
-      Directory.find(args[:id])
+      provider = Directory.find(args[:id])
+      provider.destroy
+      provider
     end
   end
 end
