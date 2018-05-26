@@ -1,5 +1,5 @@
 module Resolvers
-  class GetProviders
+  class GetAllProviders
     def call(_, args, _)
       directory(args)
     end
