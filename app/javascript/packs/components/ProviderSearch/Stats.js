@@ -3,6 +3,7 @@ import { Segment, Statistic } from 'semantic-ui-react'
 
 const Stats = ({ currentPageNumber, totalPages, totalCount }) => (
   <Segment>
+    Current search details
     <Statistic.Group color='red' widths='three'>
       <Statistic>
         <Statistic.Value>{currentPageNumber}</Statistic.Value>
