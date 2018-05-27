@@ -23,7 +23,7 @@ export default class ProviderContainer extends Component {
       searchTerm: '',
       activeItem: 'home',
       openModal: false,
-      deleteProviders: [],
+      selectedProviders: [],
       provider: {
         title: '', first_name: '', last_name: '', gender: '',
         email: '', phone: '',
@@ -77,7 +77,7 @@ export default class ProviderContainer extends Component {
   }
 
   deleteProviders = async () => {
-    const query = buildDeleteProvidersQuery(this.state.deleteProviders)
+    const query = buildDeleteProvidersQuery(this.state.selectedProviders)
     const { data: { data: { deleteProviders } } } = await axios.post('/graphql', { query })
     this.setState({ deleteProviders: [] })
 
@@ -93,11 +93,11 @@ export default class ProviderContainer extends Component {
     checked ? this.addToSelectedProviders(id) : this.removeFromSelectedProvders(id)
   }
 
-  addToSelectedProviders = (id) => this.setState({ deleteProviders: [...this.state.deleteProviders, id] })
+  addToSelectedProviders = (id) => this.setState({ selectedProviders: [...this.state.selectedProviders, id] })
 
   removeFromSelectedProvders = (id) => {
-    const deleteProviders = this.state.deleteProviders.filter( selectedId => selectedId != id )
-    this.setState({ deleteProviders })
+    const selectedProviders = this.state.selectedProviders.filter( selectedId => selectedId != id )
+    this.setState({ selectedProviders })
   }
 
   goToNextPage = () => {
@@ -140,7 +140,7 @@ export default class ProviderContainer extends Component {
           searchOnChange={this.handleSearch}
           createOnClick={this.openModalCreateProvider}
           deleteProvidersOnClick={this.deleteProviders}
-          showDelete={ this.state.deleteProviders.length ? true : false }
+          showDeleteAndMerge={ this.state.selectedProviders.length ? true : false }
         />
 
         <Stats currentPageNumber={this.state.currentPageNumber} totalPages={this.state.totalPages} totalCount={this.state.totalCount}/>
