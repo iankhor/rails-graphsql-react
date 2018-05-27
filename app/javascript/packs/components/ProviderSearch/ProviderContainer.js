@@ -5,7 +5,7 @@ import NavigationBar from './NavigationBar'
 import Stats from './Stats'
 import { throttle } from 'lodash'
 import { Container } from 'semantic-ui-react'
-import { buildDirectoryQuery, buildCreateProviderQuery, buildGetProviderQuery, buildDeleteProviderQuery } from './../../queries/Queries'
+import { buildDirectoryQuery, buildCreateProviderQuery, buildGetProviderQuery, buildDeleteProviderQuery, buildDeleteProvidersQuery } from './../../queries/Queries'
 import axios from 'axios'
 import faker from 'faker'
 
@@ -23,6 +23,7 @@ export default class ProviderContainer extends Component {
       searchTerm: '',
       activeItem: 'home',
       openModal: false,
+      deleteProviders: [],
       provider: {
         title: '', first_name: '', last_name: '', gender: '',
         email: '', phone: '',
@@ -75,11 +76,27 @@ export default class ProviderContainer extends Component {
     alert(`The user ${full_name} was created with address ${full_address} with id ${id}`)
   }
 
-  deleteProvider = async (id) => {
-    const query = buildDeleteProviderQuery(id)
-    const { data: { data: { deleteProvider: { full_name } }}} = await axios.post('/graphql', { query })
-    this.getProviders(buildDirectoryQuery({}))
-    alert(`The user ${full_name} was deleted`)
+  // can be refactored
+  deleteProviders = async () => {
+    const query = buildDeleteProvidersQuery(this.state.deleteProviders)
+    const { data: { data: { deleteProviders } } } = await axios.post('/graphql', { query })
+    this.setState({ deleteProviders: [] })
+
+
+    const deletedIds = deleteProviders.map( p => p.id )
+    alert(`The users with ids ${deletedIds} were deleted`)
+
+    // this.getProviders(buildDirectoryQuery({}))
+    window.location.reload(true) //currently a hack, need to figure a way to reset all checkboxes after deletion
+  }
+
+  selectedDeleteProvider = ({ checked }, id) => {
+    if(checked) {
+      this.setState({ deleteProviders: [...this.state.deleteProviders, id] })
+    } else {
+      const deleteProviders = this.state.deleteProviders.filter( selectedId => selectedId != id )
+      this.setState({ deleteProviders })
+    }
   }
 
   goToNextPage = () => {
@@ -118,7 +135,11 @@ export default class ProviderContainer extends Component {
   render() {
     return (
       <Container text style={{ marginTop: '7em' }}>
-        <NavigationBar searchOnChange={this.handleSearch} createOnClick={this.openModalCreateProvider} />
+        <NavigationBar
+          searchOnChange={this.handleSearch}
+          createOnClick={this.openModalCreateProvider}
+          deleteProvidersOnClick={this.deleteProviders}
+        />
 
         <Stats currentPageNumber={this.state.currentPageNumber} totalPages={this.state.totalPages} totalCount={this.state.totalCount}/>
 
@@ -130,6 +151,7 @@ export default class ProviderContainer extends Component {
           deleteProvider={this.deleteProvider}
           onClickNextPage={this.goToPrevPage}
           onClickPrevPage={this.goToNextPage}
+          selectedDeleteProvider={this.selectedDeleteProvider}
         />
 
         <ProviderForm
