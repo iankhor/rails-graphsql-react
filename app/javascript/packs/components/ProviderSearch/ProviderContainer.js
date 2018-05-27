@@ -40,7 +40,7 @@ export default class ProviderContainer extends Component {
 
   getProviders = async (query) => {
     this.setState({ dimmerActive: true })
-    const { data: { data: { directory: { edges, totalPages, pageInfo, totalCount } } } } = await axios.post('/graphql', { query })
+    const { data: { data: { getProviders: { edges, totalPages, pageInfo, totalCount } } } } = await axios.post('/graphql', { query })
     this.setState({ directory: edges, totalPages, pageInfo, dimmerActive: false, totalCount })
   }
 
