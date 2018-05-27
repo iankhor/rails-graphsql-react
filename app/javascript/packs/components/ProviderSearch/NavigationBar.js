@@ -8,7 +8,7 @@ const NavigationBar = ({ searchOnChange, createOnClick, deleteProvidersOnClick, 
       <Input
         size='large'
         icon='search'
-        placeholder='Search provider name'
+        placeholder='Search by provider name or their initials ...'
         onChange={searchOnChange}
         style={{ width: '650px' }}
       />
