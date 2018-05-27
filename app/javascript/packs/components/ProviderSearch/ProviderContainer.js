@@ -76,7 +76,6 @@ export default class ProviderContainer extends Component {
     alert(`The user ${full_name} was created with address ${full_address} with id ${id}`)
   }
 
-  // can be refactored
   deleteProviders = async () => {
     const query = buildDeleteProvidersQuery(this.state.deleteProviders)
     const { data: { data: { deleteProviders } } } = await axios.post('/graphql', { query })
@@ -139,6 +138,7 @@ export default class ProviderContainer extends Component {
           searchOnChange={this.handleSearch}
           createOnClick={this.openModalCreateProvider}
           deleteProvidersOnClick={this.deleteProviders}
+          showDelete={ this.state.deleteProviders.length ? true : false }
         />
 
         <Stats currentPageNumber={this.state.currentPageNumber} totalPages={this.state.totalPages} totalCount={this.state.totalCount}/>
