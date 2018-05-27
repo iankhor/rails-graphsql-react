@@ -90,12 +90,14 @@ export default class ProviderContainer extends Component {
   }
 
   selectedDeleteProvider = ({ checked }, id) => {
-    if(checked) {
-      this.setState({ deleteProviders: [...this.state.deleteProviders, id] })
-    } else {
-      const deleteProviders = this.state.deleteProviders.filter( selectedId => selectedId != id )
-      this.setState({ deleteProviders })
-    }
+    checked ? this.addToSelectedProviders(id) : this.removeFromSelectedProvders(id)
+  }
+
+  addToSelectedProviders = (id) => this.setState({ deleteProviders: [...this.state.deleteProviders, id] })
+
+  removeFromSelectedProvders = (id) => {
+    const deleteProviders = this.state.deleteProviders.filter( selectedId => selectedId != id )
+    this.setState({ deleteProviders })
   }
 
   goToNextPage = () => {
