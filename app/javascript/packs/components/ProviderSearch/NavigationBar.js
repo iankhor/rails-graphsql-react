@@ -3,7 +3,7 @@ import { Menu, Input, Button } from 'semantic-ui-react'
 import Provider from './Provider'
 
 const NavigationBar = ({ searchOnChange, createOnClick, deleteProvidersOnClick, showDeleteAndMerge = false } ) => (
-  <Menu fixed="top">
+  <Menu fixed="top" color='grey' inverted>
     <Menu.Item position='left'>
       <Input
         size='large'
@@ -19,13 +19,13 @@ const NavigationBar = ({ searchOnChange, createOnClick, deleteProvidersOnClick, 
         <Button.Content hidden>Provider</Button.Content>
       </Button>
       { showDeleteAndMerge && (
-        <Button basic color='red' animated='fade' onClick={deleteProvidersOnClick}>
+        <Button color='red' animated='fade' onClick={deleteProvidersOnClick}>
           <Button.Content visible>Delete</Button.Content>
           <Button.Content hidden>Providers</Button.Content>
         </Button>
       )}
       { showDeleteAndMerge && (
-        <Button basic color='green' animated='fade' onClick={() => alert('Clicked on Merge....')}>
+        <Button color='green' animated='fade' onClick={() => alert('Clicked on Merge....')}>
           <Button.Content visible>Merge</Button.Content>
           <Button.Content hidden>Providers</Button.Content>
         </Button>
