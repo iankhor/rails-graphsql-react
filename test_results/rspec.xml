@@ -1,0 +1,8 @@
+
+Resolvers::GetProvider
+  #call
+[32m    should eq #<Directory id: 10, title: "Mr.", first_name: "Isabella", last_name: "Carroll", gender: "Male", phone...617a48,'0.64378502E2',18(27)>, created_at: "2018-05-28 13:00:10", updated_at: "2018-05-28 13:00:10">[0m
+
+Finished in 0.06746 seconds (files took 1.88 seconds to load)
+[32m1 example, 0 failures[0m
+
