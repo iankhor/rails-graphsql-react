@@ -16,3 +16,10 @@ heroku ps:scale web=1
 heroku ps
 heroku open
 ```
+
+#### What's in
+Rails 5
+Webpacker
+React Semantic
+RSpec
+Factory Bot
