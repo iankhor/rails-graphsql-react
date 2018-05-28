@@ -7,6 +7,8 @@ class Directory < ApplicationRecord
                   }
   self.table_name = 'directory'
 
+  validates :email, presence: true
+
   def full_name
     [title, first_name, last_name].compact.join(' ')
   end
