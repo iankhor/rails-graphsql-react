@@ -14,11 +14,15 @@ RSpec.describe 'RailsGraphqlReactSchema' do
   describe 'getProvider' do
     let(:provider) { create(:directory) }
     let(:query_string) { %|{ getProvider(id : #{id}) { id } }| }
+    let(:patient) { create(:patient, :with_providers) }
 
     context 'found' do
       let(:id) { provider.id }
 
-      it{ expect(result['data']['getProvider']).to eq({ 'id' => provider.id.to_s }) }
+      it{
+        binding.pry
+        expect(result['data']['getProvider']).to eq({ 'id' => provider.id.to_s })
+      }
     end
 
     context 'not found' do

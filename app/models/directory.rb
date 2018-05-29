@@ -1,11 +1,15 @@
 class Directory < ApplicationRecord
+  self.table_name = 'directory'
+
   include PgSearch
   pg_search_scope :search_name,
                   against: [:first_name, :last_name],
                   :using => {
                     :tsearch => {:prefix => true},
                   }
-  self.table_name = 'directory'
+
+  has_many :directories_patients, class_name: 'DirectoriesPatients'
+  has_many :patients, through: :directories_patients
 
   validates :email, presence: true
 

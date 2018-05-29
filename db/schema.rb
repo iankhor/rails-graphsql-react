@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_23_095157) do
+ActiveRecord::Schema.define(version: 2018_05_29_123206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "directories_patients", id: false, force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.bigint "directory_id", null: false
+    t.index ["directory_id", "patient_id"], name: "index_directories_patients_on_directory_id_and_patient_id"
+    t.index ["patient_id", "directory_id"], name: "index_directories_patients_on_patient_id_and_directory_id"
+  end
 
   create_table "directory", force: :cascade do |t|
     t.string "title"
@@ -30,6 +37,14 @@ ActiveRecord::Schema.define(version: 2018_05_23_095157) do
     t.string "country_code"
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.string "last_name"
+    t.string "first_name"
+    t.date "date_of_birth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
