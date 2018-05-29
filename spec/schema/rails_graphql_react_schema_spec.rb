@@ -19,10 +19,7 @@ RSpec.describe 'RailsGraphqlReactSchema' do
     context 'found' do
       let(:id) { provider.id }
 
-      it{
-        binding.pry
-        expect(result['data']['getProvider']).to eq({ 'id' => provider.id.to_s })
-      }
+      it{ expect(result['data']['getProvider']).to eq({ 'id' => provider.id.to_s }) }
     end
 
     context 'not found' do
