@@ -5,4 +5,5 @@ Types::PatientType = GraphQL::ObjectType.define do
   field :first_name, types.String
   field :last_name, types.String
   field :providers, !types[Types::DirectoryType]
+  field :someEndPoint, types.String
 end
