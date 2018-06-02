@@ -4,7 +4,7 @@ import ProviderForm from './ProviderForm'
 import NavigationBar from './NavigationBar'
 import Stats from './Stats'
 import { throttle } from 'lodash'
-import { Container } from 'semantic-ui-react'
+import { Container, Visibility } from 'semantic-ui-react'
 import { buildDirectoryQuery, buildCreateProviderQuery, buildGetProviderQuery, buildDeleteProviderQuery, buildDeleteProvidersQuery } from './../../queries/Queries'
 import axios from 'axios'
 import faker from 'faker'
@@ -29,6 +29,10 @@ export default class ProviderContainer extends Component {
         email: '', phone: '',
         street_line_1: '',  street_line_2: '',
         sublocality: '', locality: '',  country_code: '', postal_code: ''
+      },
+      calculations: {
+        topVisible: false,
+        bottomVisible: false,
       }
     }
 
@@ -131,6 +135,8 @@ export default class ProviderContainer extends Component {
     this.getProvider(id)
   }
 
+  handleScroll = (e, { calculations }) => this.setState({ calculations })
+
   closeModal = () => this.setState({ openModal: false })
 
   render() {
@@ -145,17 +151,19 @@ export default class ProviderContainer extends Component {
 
         <Stats currentPageNumber={this.state.currentPageNumber} totalPages={this.state.totalPages} totalCount={this.state.totalCount}/>
 
-        <ProviderTable
-          dimmerDimmed={this.state.dimmerActive}
-          dimmerActive={this.state.dimmerActive}
-          directory={this.state.directory}
-          getProvider={this.openModalUpdateProvider}
-          deleteProvider={this.deleteProvider}
-          onClickNextPage={this.goToPrevPage}
-          onClickPrevPage={this.goToNextPage}
-          selectedDeleteProvider={this.selectedDeleteProvider}
-        />
+        <Visibility offset={[10, 10]} onUpdate={this.handleScroll} updateOn='repaint'>
+          <ProviderTable
+            dimmerDimmed={this.state.dimmerActive}
+            dimmerActive={this.state.dimmerActive}
+            directory={this.state.directory}
+            getProvider={this.openModalUpdateProvider}
+            deleteProvider={this.deleteProvider}
+            onClickNextPage={this.goToPrevPage}
+            onClickPrevPage={this.goToNextPage}
+            selectedDeleteProvider={this.selectedDeleteProvider}
+          />
 
+        </Visibility>
         <ProviderForm
           {...this.state.provider}
           modalOpen={this.state.openModal}
