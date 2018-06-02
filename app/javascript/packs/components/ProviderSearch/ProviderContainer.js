@@ -40,12 +40,18 @@ export default class ProviderContainer extends Component {
     this.blankProvider = this.state.provider;
   }
 
-  componentDidMount = () => this.getProviders(buildDirectoryQuery({}))
+  componentDidMount = async () => {
+    const response = await this.getProviders(buildDirectoryQuery({})) 
+    this.updateComponentProviders(response)
+  }
+
+  updateComponentProviders = ({ data: { data: { getProviders: { edges, totalPages, pageInfo, totalCount } } } }) => {
+    this.setState({ directory: edges, totalPages, pageInfo, dimmerActive: false, totalCount })
+  }
 
   getProviders = async (query) => {
     this.setState({ dimmerActive: true })
-    const { data: { data: { getProviders: { edges, totalPages, pageInfo, totalCount } } } } = await axios.post('/graphql', { query })
-    this.setState({ directory: edges, totalPages, pageInfo, dimmerActive: false, totalCount })
+    return await axios.post('/graphql', { query })
   }
 
   getProvider = async (id) => {
@@ -76,7 +82,8 @@ export default class ProviderContainer extends Component {
 
     const { data: { data: { createProvider: { full_name, full_address, id } } }} = await axios.post('/graphql', { query })
     this.setState({ openModal: false })
-    this.getProviders(buildDirectoryQuery({}))
+    const response = await this.getProviders(buildDirectoryQuery({}))
+    this.updateComponentProviders(response)
     alert(`The user ${full_name} was created with address ${full_address} with id ${id}`)
   }
 
@@ -104,21 +111,24 @@ export default class ProviderContainer extends Component {
     this.setState({ selectedProviders })
   }
 
-  goToNextPage = () => {
+  goToNextPage = async () => {
     const { pageInfo, searchTerm } = this.state
-    this.getProviders(buildDirectoryQuery({ navigateToNextPage: true, pageInfo, searchTerm }))
+    const response = await this.getProviders(buildDirectoryQuery({ navigateToNextPage: true, pageInfo, searchTerm }))
+    this.updateComponentProviders(response)
     this.setState({ currentPageNumber: this.state.currentPageNumber + 1 })
   }
 
-  goToPrevPage = () => {
+  goToPrevPage = async () => {
     const { pageInfo, searchTerm } = this.state
-    this.getProviders(buildDirectoryQuery({ navigateToPreviousPage: true, pageInfo, searchTerm }))
+    const response = await this.getProviders(buildDirectoryQuery({ navigateToPreviousPage: true, pageInfo, searchTerm }))
+    this.updateComponentProviders(response)
     this.setState({ currentPageNumber: this.state.currentPageNumber - 1 })
   }
 
-  performSearch = () => {
+  performSearch = async () => {
     const { pageInfo, searchTerm } = this.state
-    this.getProviders(buildDirectoryQuery({ pageInfo, searchTerm }))
+    const response = await this.getProviders(buildDirectoryQuery({ pageInfo, searchTerm }))
+    this.updateComponentProviders(response)
   }
 
   handleSearch = ({ target: { value: searchTerm }}) => {
