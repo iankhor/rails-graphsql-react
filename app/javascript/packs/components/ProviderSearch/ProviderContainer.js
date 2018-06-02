@@ -41,7 +41,7 @@ export default class ProviderContainer extends Component {
   }
 
   componentDidMount = async () => {
-    const response = await this.getProviders(buildDirectoryQuery({})) 
+    const response = await this.getProviders(buildDirectoryQuery({}))
     this.updateComponentProviders(response)
   }
 
@@ -145,6 +145,25 @@ export default class ProviderContainer extends Component {
     this.getProvider(id)
   }
 
+  handleEndOfPage = async () => {
+    console.log('handleEndOfPage')
+    const { pageInfo, searchTerm } = this.state
+    const response = await this.getProviders(buildDirectoryQuery(
+      { navigateToNextPage: true, pageInfo, searchTerm })
+    )
+
+    const { data: { data: { getProviders: { edges, totalPages, pageInfo: newPageInfo, totalCount } } } } = response
+    console.log(response)
+    // this.setState(
+    //   { directory: [...this.state.directory, edges],
+    //     totalPages,
+    //     pageInfo: newPageInfo,
+    //     dimmerActive: false,
+    //     totalCount
+    //   }
+    // )
+  }
+
   handleScroll = (e, { calculations }) => this.setState({ calculations })
 
   closeModal = () => this.setState({ openModal: false })
@@ -165,7 +184,7 @@ export default class ProviderContainer extends Component {
           continuous={true}
           offset={[10, 10]}
           onUpdate={this.handleScroll}
-          onBottomVisible={() => console.log('im onBottomVisible')}
+          onBottomVisible={this.handleEndOfPage}
         >
           <ProviderTable
             dimmerDimmed={this.state.dimmerActive}
