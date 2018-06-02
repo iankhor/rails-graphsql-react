@@ -151,7 +151,12 @@ export default class ProviderContainer extends Component {
 
         <Stats currentPageNumber={this.state.currentPageNumber} totalPages={this.state.totalPages} totalCount={this.state.totalCount}/>
 
-        <Visibility offset={[10, 10]} onUpdate={this.handleScroll} updateOn='repaint'>
+        <Visibility
+          continuous={true}
+          offset={[10, 10]}
+          onUpdate={this.handleScroll}
+          onBottomVisible={() => console.log('im onBottomVisible')}
+        >
           <ProviderTable
             dimmerDimmed={this.state.dimmerActive}
             dimmerActive={this.state.dimmerActive}
