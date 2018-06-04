@@ -22,8 +22,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'faker'
 
 #graphql
-gem 'graphiql-rails'
 gem 'graphql'
+gem 'graphiql-rails'
+gem 'graphql-batch'
 gem 'graphql-errors'
 
 group :development, :test do
