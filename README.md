@@ -8,6 +8,11 @@ This repo is a simple demo for a directory of medical providers using the follow
 - RSpec
 - Factory Bot
 
+#### Notable implementation(s)
+- CRUD operations via GraphQL
+- Infinite Scroll
+- Search
+
 #### Installation
 
 Prerequisites: Postgres 10
