@@ -154,14 +154,14 @@ export default class ProviderContainer extends Component {
 
     const { data: { data: { getProviders: { edges, totalPages, pageInfo: newPageInfo, totalCount } } } } = response
     console.log(response)
-    // this.setState(
-    //   { directory: [...this.state.directory, edges],
-    //     totalPages,
-    //     pageInfo: newPageInfo,
-    //     dimmerActive: false,
-    //     totalCount
-    //   }
-    // )
+    this.setState(
+      { directory: [...this.state.directory, ...edges],
+        totalPages,
+        pageInfo: newPageInfo,
+        dimmerActive: false,
+        totalCount
+      }
+    )
   }
 
   handleScroll = (e, { calculations }) => this.setState({ calculations })
